@@ -25,9 +25,34 @@ def fetch_ohlcv(symbol: str, start: str = "2005-01-01", end=None) -> pd.DataFram
         DataFrame with DatetimeIndex named 'date' and columns:
         ['open', 'high', 'low', 'close', 'adj close', 'volume'].
     """
-    df = yf.download(symbol, start=start, end=end, auto_adjust=False)
-    df = df.rename(columns=str.lower)[
-        ["open", "high", "low", "close", "adj close", "volume"]
-    ]
+    df = yf.download(
+        symbol,
+        start=start,
+        end=end,
+        auto_adjust=False,
+        progress=False,
+    )
+
+    # --- flatten MultiIndex columns if present (yfinance can return ('Price','Ticker')) ---
+    if isinstance(df.columns, pd.MultiIndex):
+        # Try to select the given ticker from the last level (common yfinance shape)
+        # yfinance often lowercases the ticker in that level (e.g., 'spy')
+        sym_lower = symbol.lower()
+        try:
+            df = df.xs(sym_lower, axis=1, level=-1)  # select the 'Ticker' level
+        except (KeyError, TypeError):
+            # Fallback: just drop the last level and keep the price names
+            df.columns = df.columns.get_level_values(0)
+
+    # normalize columns, keep only the standard OHLCV set if present
+    df.columns = [str(c).strip().lower() for c in df.columns]
+    wanted = ["open", "high", "low", "close", "adj close", "volume"]
+    cols = [c for c in wanted if c in df.columns]
+    df = df[cols]
+
+    # tidy index
+    df = df.sort_index()
+    df.index = pd.to_datetime(df.index, utc=False)
     df.index.name = "date"
+
     return df
