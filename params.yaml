@@ -1,0 +1,26 @@
+data:
+symbol: SPY
+start: "2005-01-01"
+end: null
+labels:
+  horizon_days: 1
+  threshold_tau: 0.0000     # try 0.001 later
+features:
+  rsi_window: 14
+  sma_fast: 5
+  sma_slow: 20
+  sma_mid: 50
+  vol_window: 10
+  atr_window: 14
+trading:
+  execute_at: "next_close"
+  cost_roundtrip_bps: 5
+  prob_threshold: 0.50
+cv:
+  scheme: "walk_forward"
+folds:
+- {train_end: "2012-12-31", test_end: "2014-12-31"}
+- {train_end: "2014-12-31", test_end: "2016-12-31"}
+- {train_end: "2016-12-31", test_end: "2018-12-31"}
+report:
+  outdir: "reports"

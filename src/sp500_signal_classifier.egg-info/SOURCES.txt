@@ -1,0 +1,9 @@
+README.md
+pyproject.toml
+src/config.py
+src/data/fetch.py
+src/sp500_signal_classifier.egg-info/PKG-INFO
+src/sp500_signal_classifier.egg-info/SOURCES.txt
+src/sp500_signal_classifier.egg-info/dependency_links.txt
+src/sp500_signal_classifier.egg-info/requires.txt
+src/sp500_signal_classifier.egg-info/top_level.txt
