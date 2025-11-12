@@ -56,3 +56,19 @@ def fetch_ohlcv(symbol: str, start: str = "2005-01-01", end=None) -> pd.DataFram
     df.index.name = "date"
 
     return df
+
+
+def cache_data(df: pd.DataFrame, symbol: str, cache_dir: str = "data/raw") -> None:
+    """
+    Placeholder for caching fetched data locally.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame containing OHLCV data to cache.
+    symbol : str
+        Ticker symbol corresponding to the data.
+    cache_dir : str, optional
+        Directory path to store cached data.
+    """
+    pass

@@ -4,7 +4,7 @@ start: "2005-01-01"
 end: null
 labels:
   horizon_days: 1
-  threshold_tau: 0.0000     # try 0.001 later
+  threshold_tau: 0.0000     # threshold for labeling returns
 features:
   rsi_window: 14
   sma_fast: 5
