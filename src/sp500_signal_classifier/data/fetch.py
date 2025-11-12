@@ -33,7 +33,7 @@ def fetch_ohlcv(symbol: str, start: str = "2005-01-01", end=None) -> pd.DataFram
         progress=False,
     )
 
-    # --- flatten MultiIndex columns if present (yfinance can return ('Price','Ticker')) ---
+    # --- flatten MultiIndex columns if present (yfinance can return ('Price','Ticker')) --- #
     if isinstance(df.columns, pd.MultiIndex):
         # Try to select the given ticker from the last level (common yfinance shape)
         # yfinance often lowercases the ticker in that level (e.g., 'spy')

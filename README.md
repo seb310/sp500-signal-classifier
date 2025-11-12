@@ -1,4 +1,4 @@
-# SP500 Signal Classifier
+# SP500 Signal Classifier (Work in Progress)
 Long/flat next-day classifier for SPY with walk-forward CV, costs, and
 reproducible backtests.
 
@@ -7,30 +7,25 @@ sp500-signal-classifier/
 ├─ README.md
 ├─ LICENSE
 ├─ .gitignore
-├─ pyproject.toml            # or requirements.txt + setup.cfg
+├─ pyproject.toml
 ├─ .pre-commit-config.yaml
 ├─ Makefile
-├─ params.yaml               # central config (paths, horizons, costs, CV,
-etc.)
+├─ params.yaml               # central config (paths, horizons, costs, CV, etc.)
 ├─ data/
 │  ├─ raw/                   # untouched downloads (e.g., SPY, VIX, yields)
 │  ├─ interim/               # cleaned & aligned bars
-│  └─ processed/             # feature matrices + labels (train/valid/test
-splits)
+│  └─ processed/             # feature matrices + labels (train/valid/test splits)
 ├─ notebooks/
-│  ├─ 00_exploration.ipynb
-│  ├─ 10_feature_checks.ipynb
-│  └─ 20_model_diagnostics.ipynb
 ├─ reports/
 │  ├─ figures/               # plots exported by scripts/notebooks
-│  └─ metrics/               # JSON/CSV of backtest & CV metrics
-├─ models/                   # saved models (joblib) + calibration objects
-├─ backtests/                # serialized equity curves, trades, tearsheets
+│  └─ metrics/               # Cacktests & CV metrics
+├─ models/                   # saved models
+├─ backtests/
 ├─ src/
 │  ├─ __init__.py
 │  ├─ config.py              # loads params.yaml; small helper for paths
 │  ├─ data/
-│  │  ├─ fetch.py            # yfinance/FRED pulls; caching; trading calendar
+│  │  ├─ fetch.py            # yfinance pulls; caching; trading calendar
 │  │  └─ clean.py            # OHLCV alignment, missing days, splits/holidays
 │  ├─ features/
 │  │  ├─ returns.py          # 1D/5D/10D, z-scores
@@ -55,13 +50,7 @@ alignment
 turnover
 │     └─ plots.py            # equity curves, drawdowns, confusion matrices
 ├─ scripts/
-│  ├─ 01_fetch_data.py
-│  ├─ 02_build_features.py
-│  ├─ 03_train_baselines.py
-│  ├─ 04_train_model.py
-│  ├─ 05_backtest.py
-│  └─ 06_report.py           # dump metrics JSON + figures
 └─ tests/
-   ├─ test_alignment.py      # no leakage; shapes; NaNs only at start
-      ├─ test_backtest.py       # cost application, compounding, turnovers
-         └─ test_metrics.py        # Sharpe/MDD correctness
+   ├─ test_clean.py          # chronological order; 1-day returns computation
+   ├─ test_fetch.py          # dataframe consistency
+   ├─ test_returns.py
