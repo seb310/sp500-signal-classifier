@@ -29,26 +29,3 @@ def to_daily(df: pd.DataFrame) -> pd.DataFrame:
     # ensure business day frequency; forward-fill only for index alignment (not prices)
     df = df.sort_index()
     return df
-
-
-def add_returns(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Add 1-day returns to the DataFrame.
-
-    Calculates the percentage change in closing price over a 1-day period
-    and adds it as a new column 'ret1'.
-
-    Parameters
-    ----------
-    df : pd.DataFrame
-        DataFrame containing at least a 'close' column with price data.
-
-    Returns
-    -------
-    pd.DataFrame
-        Copy of input DataFrame with additional 'ret1' column containing
-        1-day percentage returns.
-    """
-    df = df.copy()
-    df["ret1"] = df["close"].pct_change(1)
-    return df

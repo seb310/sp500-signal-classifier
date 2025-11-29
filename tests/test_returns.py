@@ -225,3 +225,6 @@ def test_add_basic_returns_handles_constant_prices():
     assert result["ret10"].iloc[10:].eq(0).all(), "10-period returns should be 0"
 
     # Z-scores will be NaN due to zero std (division by zero)
+    assert pd.isna(
+        result["ret_z20"].iloc[20:]
+    ).all(), "Z-scores should be NaN due to zero std deviation"
