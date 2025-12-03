@@ -56,8 +56,7 @@ def add_trend(
     df[f"sma_{sma_slow}_slope"] = df[f"sma_{sma_slow}"].diff()
 
     # Compute distance from SMA(mid)
-    df[f"sma_{sma_mid}_distance"] = (df["close"] - df[f"sma_{sma_mid}"]) / df[
-        f"sma_{sma_mid}"
-    ]
+    sma_mid_col = f"sma_{sma_mid}"
+    df[f"{sma_mid_col}_distance"] = (df["close"] - df[sma_mid_col]) / df[sma_mid_col]
 
     return df

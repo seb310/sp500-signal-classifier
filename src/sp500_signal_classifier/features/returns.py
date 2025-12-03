@@ -2,7 +2,7 @@
 Feature engineering module for return-based features.
 
 This module provides functions for calculating various return metrics
-and momentum indicators from price data, including percentage changes
+and momentum indicators from price data. It includes percentage changes
 over multiple periods and normalized returns.
 """
 
@@ -11,32 +11,32 @@ import pandas as pd
 
 def add_basic_returns(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Add basic return features to the dataframe.
+    Add basic return features to the DataFrame.
 
-    Calculates various return metrics including percentage changes over different
-    periods and a z-score normalized return.
+    Calculates return metrics and a normalized return signal. The function
+    adds the following columns to the input DataFrame:
+
+    - ``ret1``: 1-period percentage change in close price.
+    - ``ret5``: 5-period percentage change in close price.
+    - ``ret10``: 10-period percentage change in close price.
+    - ``ret_z20``: Z-score of ``ret1`` normalized over a 20-period rolling
+      window.
 
     Parameters
     ----------
     df : pd.DataFrame
-        Input dataframe containing at least a 'close' column with price data.
+        Input DataFrame containing at least a ``close`` column with price data.
 
     Returns
     -------
     pd.DataFrame
-        The input dataframe with the following columns added:
-        - ret1: 1-period percentage change in close price -> Captures most recent momentum
-        - ret5: 5-period percentage change in close price -> Captures medium-term trends
-        - ret10: 10-period percentage change in close price -> Slower momentum signal
-        - ret_z20: Z-score of ret1 normalized over a 20-period rolling window -> Captures how extreme today's move is relative to recent history
-                                                                                 > 2: unusually strong up day, < -2: unusually strong down day.
-                                                                                Useful for identifying shock days.
+        The input DataFrame with the new return columns added.
 
     Notes
     -----
-    The function modifies the input dataframe in-place and also returns it.
-    The ret_z20 calculation may produce NaN values for the first 20 periods
-    due to insufficient data for the rolling window calculation.
+    The function modifies the input DataFrame in-place and also returns it.
+    The ``ret_z20`` column will be NaN for the first 20 periods because the
+    rolling window requires sufficient history.
     """
     df["ret1"] = df["close"].pct_change(1)
     df["ret5"] = df["close"].pct_change(5)
